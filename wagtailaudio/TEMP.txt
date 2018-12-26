@@ -1,0 +1,8 @@
+What do I do with:
+1. Generate URL
+2. Filter
+3. Render Image
+
+Make the preview correct:
+Thumbnail, audio, title, tags?
+Confirm selection.

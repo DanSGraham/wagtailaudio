@@ -1,0 +1,50 @@
+{% load i18n %}
+<table class="listing">
+    <col />
+    <col  />
+    <col width="16%" />
+    <thead>
+        <tr class="table-headers">
+            <th>
+                {% if not is_searching %}
+                    <a href="{% url 'wagtailaudio:index' %}{% if not ordering == "title" %}?ordering=title{% endif %}" class="icon icon-arrow-down-after {% if  ordering == "title" %}teal{% endif %}">
+                        {% trans "Title" %}
+                    </a>
+                {% else %}
+                    {% trans "Title" %}
+                {% endif %}
+            </th>
+            <th>{% trans "File" %}</th>
+            <th>
+                {% if not is_searching %}
+                    <a href="{% url 'wagtailaudio:index' %}{% if not ordering == "-created_at" %}?ordering=-created_at{% endif %}" class="icon icon-arrow-down-after {% if  ordering == "-created_at" %}teal{% endif %}">
+                        {% trans "Uploaded" %}
+                    </a>
+                {% else %}
+                    {% trans "Uploaded" %}
+                {% endif %}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for audio_file in audio_files %}
+            <tr>
+                <td class="title">
+                    {% if choosing %}
+                        <h2><a href="{% url 'wagtailaudio:audio_chosen' audio_file.id %}" class="audio-choice">{{ audio_file.title }}</a></h2>
+                    {% else %}
+                        <h2><a href="{% url 'wagtailaudio:edit' audio_file.id %}">{{ audio_file.title }}</a></h2>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if choosing %}
+                        {{ audio_file.filename }}
+                    {% else %}
+                        <a href="{{ audio_file.url }}" class="nolink">{{ audio_file.filename }}</a>
+                    {% endif %}
+                </td>
+                <td><div class="human-readable-date" title="{{ audio_file.created_at|date:"d M Y H:i" }}">{{ audio_file.created_at|timesince }} ago</div></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,9 @@
+{% extends "wagtailadmin/shared/field.html" %}
+{% load i18n wagtailaudio_tags %}
+{% block form_field %}
+
+    <a href="{{ audio.url }}" class="icon icon-audio">{{ audio.filename }}</a><br /><br />
+
+    {% trans "Change audio file:" %}
+    {{ field }}
+{% endblock %}

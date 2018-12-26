@@ -1,0 +1,11 @@
+{% extends "wagtailadmin/shared/field.html" %}
+{% load i18n %}
+{% block form_field %}
+
+    {% if audio.thumbnail %}
+        <a href="{{ audio.thumbnail.url }}" class="icon icon-image">{{ audio.thumbnail_filename }}</a><br /><br />
+    {% endif %}
+
+    {% trans "Change thumbnail file:" %}
+    {{ field }}
+{% endblock %}
