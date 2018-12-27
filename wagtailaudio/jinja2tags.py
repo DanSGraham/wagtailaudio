@@ -11,6 +11,5 @@ class WagtailAudioExtension(Extension):
             'audio_url': audio_url,
         })
 
-
 # Nicer import names
 audio = WagtailAudioExtension

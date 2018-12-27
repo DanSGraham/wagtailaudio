@@ -52,8 +52,6 @@ def get_chooser_context(request):
         'searchform': SearchForm(),
         'is_searching': False,
         'query_string': None,
-        'will_select_format': request.GET.get('select_format'),
-        'popular_tags': popular_tags_for_model(get_audio_model()),
         'collections': collections,
     }
 
@@ -104,7 +102,6 @@ def chooser(request):
             'audio_files': audio_files,
             'is_searching': is_searching,
             'query_string': q,
-            'will_select_format': request.GET.get('select_format')
         })
     else:
         paginator, audio_files = paginate(request, audio_files, per_page=12)

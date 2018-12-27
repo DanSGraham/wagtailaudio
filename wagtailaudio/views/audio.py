@@ -78,7 +78,6 @@ def index(request):
             'is_searching': bool(query_string),
 
             'search_form': form,
-            'popular_tags': popular_tags_for_model(Audio),
             'collections': collections,
             'current_collection': current_collection,
             'user_can_add': permission_policy.user_has_permission(request.user, 'add'),
@@ -153,67 +152,11 @@ def edit(request, audio_id):
     return render(request, "wagtailaudio/audio/edit.html", {
         'audio': audio,
         'form': form,
-        'url_generator_enabled': url_generator_enabled,
         'filesize': filesize,
         'user_can_delete': permission_policy.user_has_permission_for_instance(
             request.user, 'delete', audio
         ),
     })
-
-
-def url_generator(request, audio_id):
-    audio = get_object_or_404(get_audio_model(), id=audio_id)
-
-    if not permission_policy.user_has_permission_for_instance(request.user, 'change', audio):
-        return permission_denied(request)
-
-    return render(request, "wagtailaudio/audio/url_generator.html", {
-        'image': image,
-    })
-
-
-def generate_url(request, audio_id, filter_spec):
-    # Get the audio
-    Audio = get_audio_model()
-    try:
-        Audio = Audio.objects.get(id=audio_id)
-    except Audio.DoesNotExist:
-        return JsonResponse({
-            'error': "Cannot find audio."
-        }, status=404)
-
-    # Check if this user has edit permission on this image
-    if not permission_policy.user_has_permission_for_instance(request.user, 'change', audio):
-        return JsonResponse({
-            'error': "You do not have permission to generate a URL for this audio."
-        }, status=403)
-
-    # Generate url
-    signature = generate_signature(audio_id, filter_spec)
-    url = reverse('wagtailimages_serve', args=(signature, audio_id, filter_spec))
-
-    # Get site root url
-    try:
-        site_root_url = Site.objects.get(is_default_site=True).root_url
-    except Site.DoesNotExist:
-        site_root_url = Site.objects.first().root_url
-
-    # Generate preview url
-    preview_url = reverse('wagtailaudio:preview', args=(audio_id, filter_spec))
-
-    return JsonResponse({'url': site_root_url + url, 'preview_url': preview_url}, status=200)
-
-
-def preview(request, audio_id, filter_spec):
-    audio = get_object_or_404(get_audio_model(), id=audio_id)
-
-    try:
-        response = HttpResponse()
-        audio = Filter(spec=filter_spec).run(audio, response)
-        response['Content-Type'] = 'audio/' + audio.format_name
-        return response
-    except InvalidFilterSpecError:
-        return HttpResponse("Invalid filter spec: " + filter_spec, content_type='text/plain', status=400)
 
 
 @permission_checker.require('delete')

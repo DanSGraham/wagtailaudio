@@ -1,4 +1,4 @@
-What do I do with:
+Wat do I do with:
 1. Generate URL
 2. Filter
 3. Render Image
@@ -6,3 +6,11 @@ What do I do with:
 Make the preview correct:
 Thumbnail, audio, title, tags?
 Confirm selection.
+
+Done:
+Templates
+Base Folder
+Views
+
+TODO:
+static src

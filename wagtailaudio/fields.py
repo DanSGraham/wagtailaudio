@@ -14,9 +14,6 @@ class WagtailAudioField(FileField):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        #TODO: USE MUTAGEN TO VERIFY INTERNAL TYPE, AS WITH WAGTAIL IMAGES.
-        #WIll be checked below, but must add the field part as well. See images for examples.
- 
         # Get max upload size from settings
         self.max_upload_size = getattr(settings, 'WAGTAILAUDIO_MAX_UPLOAD_SIZE', 10 * 1024 * 1024)
         max_upload_size_text = filesizeformat(self.max_upload_size)
@@ -62,13 +59,27 @@ class WagtailAudioField(FileField):
 
         audio_format = extension.upper()
 
-        #internal_image_format = f.image.format.upper()
+        #Check internal format using mutagen.
+        from mutagen import File
+        internal_audio_format = File(f.name)
+        if internal_audio_format is None:
+            print ("Couldn't find file")
+        else:
+            in_type = type(internal_audio_format).__name__
+            if in_type in ['ID3' or 'MP3']:
+                internal_audio_format = 'MP3'
+            elif in_type == 'OggVorbis':
+                internal_audio_format = 'OGG'
+            elif in_type == 'WavPack':
+                internal_audio_format = 'WAV'
+            else:
+                internal_audio_format = "UNSUPPORTED TYPE"
 
-        ## Check that the internal format matches the extension
-        #if internal_image_format != image_format:
-        #    raise ValidationError(self.error_messages['invalid_image_known_format'] % (
-        #        image_format,
-        #    ), code='invalid_image_known_format')
+            # Check that the internal format matches the extension
+            if internal_audio_format != audio_format:
+                raise ValidationError(self.error_messages['invalid_audio_known_format'] % (
+                    image_format,
+                ), code='invalid_audio_known_format')
 
     def check_audio_file_size(self, f):
         # Upload size checking can be disabled by setting max upload size to None

@@ -75,6 +75,19 @@ class AbstractAudio(CollectionMember, index.Indexed, models.Model):
         except NotImplementedError:
             return False
 
+    def get_audio_duration(self):
+        if self.duration is None:
+            try:
+                from mutagen import File
+                temp_audio = File(self.file.path)
+                self.duration = temp_audio.info.length
+            except Exception as e:
+                raise Exception(str(e))
+
+            self.save(update_fields=['duration'])
+        return self.duration
+            
+
     def get_file_size(self):
         if self.file_size is None:
             try:
@@ -104,7 +117,7 @@ class AbstractAudio(CollectionMember, index.Indexed, models.Model):
         return self.file_hash
 
     def get_upload_to(self, filename):
-        folder_name = 'original_audio'
+        folder_name = 'audio'
         filename = self.file.field.storage.get_valid_name(filename)
 
         # do a unidecode in the filename and then
