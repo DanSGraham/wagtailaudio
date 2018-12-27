@@ -2,7 +2,7 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
 
-default_app_config = 'wagtail.images.apps.WagtailAudioAppConfig'
+default_app_config = 'wagtailaudio.apps.WagtailAudioAppConfig'
 
 
 def get_audio_model_string():

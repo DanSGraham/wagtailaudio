@@ -12,11 +12,9 @@ from wagtail.admin.forms.search import SearchForm
 from wagtail.admin.utils import PermissionPolicyChecker, permission_denied, popular_tags_for_model
 from wagtail.core.models import Collection, Site
 from wagtailaudio import get_audio_model
-from wagtailaudio.exceptions import InvalidFilterSpecError
-from wagtailaudio.forms import URLGeneratorForm, get_audio_form
-from wagtailaudio.models import Filter, SourceAudioIOError
+from wagtailaudio.forms import get_audio_form
+from wagtailaudio.models import SourceAudioIOError
 from wagtailaudio.permissions import permission_policy
-from wagtailaudio.views.serve import generate_signature
 from wagtail.search import index as search_index
 from wagtail.utils.pagination import paginate
 
@@ -127,13 +125,6 @@ def edit(request, audio_id):
             messages.error(request, _("The audio could not be saved due to errors."))
     else:
         form = AudioForm(instance=audio, user=request.user)
-
-    # Check if we should enable the frontend url generator
-    try:
-        reverse('wagtailaudio_serve', args=('foo', '1', 'bar'))
-        url_generator_enabled = True
-    except NoReverseMatch:
-        url_generator_enabled = False
 
     if audio.is_stored_locally():
         # Give error if audio file doesn't exist

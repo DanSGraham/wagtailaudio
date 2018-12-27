@@ -8,8 +8,7 @@ from wagtail.admin.utils import PermissionPolicyChecker, popular_tags_for_model
 from wagtail.core import hooks
 from wagtail.core.models import Collection
 from wagtailaudio import get_audio_model
-from wagtailaudio.formats import get_audio_format
-from wagtailaudio.forms import AudioInsertionForm, get_audio_form
+from wagtailaudio.forms import get_audio_form
 from wagtailaudio.permissions import permission_policy
 from wagtail.search import index as search_index
 from wagtail.utils.pagination import paginate

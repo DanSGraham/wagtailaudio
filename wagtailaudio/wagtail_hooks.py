@@ -11,7 +11,6 @@ from wagtail.admin.search import SearchArea
 from wagtail.admin.site_summary import SummaryItem
 from wagtail.core import hooks
 from wagtailaudio import admin_urls, get_audio_model
-from wagtailaudio.api.admin.endpoints import AudioAdminAPIEndpoint
 from wagtailaudio.forms import GroupAudioPermissionFormSet
 from wagtailaudio.permissions import permission_policy
 
@@ -20,11 +19,6 @@ def register_admin_urls():
     return [
         url(r'^audio/', include(admin_urls, namespace='wagtailaudio')),
     ]
-
-
-@hooks.register('construct_admin_api')
-def construct_admin_api(router):
-    router.register_endpoint('audio', AudioAdminAPIEndpoint)
 
 
 class AudioMenuItem(MenuItem):

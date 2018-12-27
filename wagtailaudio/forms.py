@@ -7,7 +7,6 @@ from wagtail.admin import widgets
 from wagtail.admin.forms.collections import (
     BaseCollectionMemberForm, collection_member_permission_formset_factory)
 from wagtailaudio.fields import WagtailAudioField
-from wagtailaudio.formats import get_audio_formats
 from wagtailaudio.models import Audio
 from wagtailaudio.permissions import permission_policy as audio_permission_policy
 
@@ -50,7 +49,7 @@ def get_audio_form(model):
         })
 
 
-GroupImagePermissionFormSet = collection_member_permission_formset_factory(
+GroupAudioPermissionFormSet = collection_member_permission_formset_factory(
     Audio,
     [
         ('add_audio', _("Add"), _("Add/edit audio you own")),
