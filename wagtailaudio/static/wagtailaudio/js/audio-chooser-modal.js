@@ -107,7 +107,7 @@ AUDIO_CHOOSER_MODAL_ONLOAD_HANDLERS = {
 
         function populateTitle(context) {
             // Note: There are two inputs with `#id_title` on the page.
-            // The page title and image title. Select the input inside the modal body.
+            // The page title and audio title. Select the input inside the modal body.
             var fileWidget = $('#id_file', context);
             fileWidget.on('change', function () {
                 var titleWidget = $('#id_title', context);
@@ -123,7 +123,7 @@ AUDIO_CHOOSER_MODAL_ONLOAD_HANDLERS = {
 
         populateTitle(modal.body);
 
-        /* Add tag entry interface (with autocompletion) to the tag field of the image upload form */
+        /* Add tag entry interface (with autocompletion) to the tag field of the audio upload form */
         $('#id_tags', modal.body).tagit({
             autocomplete: {source: jsonData['tag_autocomplete_url']}
         });

@@ -1,16 +1,3 @@
-Wat do I do with:
-1. Generate URL
-2. Filter
-3. Render Image
+The css is the problem for the add multiple. Everything else seems to be working properly. it seems like the scss must be compiled first using npm. 
 
-Make the preview correct:
-Thumbnail, audio, title, tags?
-Confirm selection.
-
-Done:
-Templates
-Base Folder
-Views
-
-TODO:
-static src
+I would also like for the preview to show up during add multiple and the page viewer with the audio to listen to and the thumbnail.

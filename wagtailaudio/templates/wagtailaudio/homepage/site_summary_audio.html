@@ -1,6 +1,6 @@
 {% load i18n wagtailadmin_tags %}
 
-<li class="icon icon-audio">
+<li class="icon icon-media">
     <a href="{% url 'wagtailaudio:index' %}">
     {% blocktrans count counter=total_audio_files with total_audio_files|intcomma as total %}
         <span>{{ total }}</span> Audio file

@@ -2,7 +2,6 @@
 {% load i18n %}
 {% load l10n %}
 {% load static %}
-{% load wagtailimages_tags %}
 {% block titletag %}{% trans "Add multiple audio files" %}{% endblock %}
 {% block extra_css %}
     {{ block.super }}
@@ -51,20 +50,15 @@
         <li class="row">
             <div class="left col3">
                 <div class="preview">
-                    <div class="thumb icon icon-image"></div>
+                    <div class="thumb icon icon-media"></div>
                     <div class="progress">
                         <div class="bar" style="width: 0%;"></div>
                     </div>
                 </div>
             </div>
             <div class="right col9">
-                <p class="status-msg success">{% trans "Upload successful. Please update this audio file with a more appropriate title, if necessary. You may also delete the image completely if the upload wasn't required." %}</p>
+                <p class="status-msg success">{% trans "Upload successful. Please update this audio file with a more appropriate title, if necessary. You may also delete the audio completely if the upload wasn't required." %}</p>
                 <p class="status-msg failure">{% trans "Sorry, upload failed." %}</p>
-                <p class="status-msg server-error">
-                    <strong>{% trans "Server Error" %}</strong>
-                    {% trans "Report this error to your webmaster with the following information:"%}
-                    <br /><span class="error-text"></span> - <span class="error-code"></span>
-                </p>
                 <p class="status-msg update-success">{% trans "Audio updated." %}</p>
                 <p class="status-msg failure error_messages"></p>
             </div>
@@ -79,8 +73,6 @@
     <script src="{% static 'wagtailadmin/js/vendor/jquery.iframe-transport.js' %}"></script>
     <script src="{% static 'wagtailadmin/js/vendor/jquery.fileupload.js' %}"></script>
     <script src="{% static 'wagtailadmin/js/vendor/jquery.fileupload-process.js' %}"></script>
-    <script src="{% static 'wagtailimages/js/vendor/jquery.fileupload-image.js' %}"></script>
-    <script src="{% static 'wagtailimages/js/vendor/jquery.fileupload-validate.js' %}"></script>
     <script src="{% static 'wagtailadmin/js/vendor/tag-it.js' %}"></script>
 
     <!-- Main script -->

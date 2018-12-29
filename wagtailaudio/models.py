@@ -1,4 +1,5 @@
 import hashlib
+import math
 import os.path
 from collections import OrderedDict
 from contextlib import contextmanager
@@ -50,6 +51,8 @@ class AbstractAudio(CollectionMember, index.Indexed, models.Model):
         verbose_name=_('file'), upload_to=get_upload_to
     )
     duration=models.PositiveIntegerField(verbose_name=_('duration'), null=True, editable=False) #Will be determined using the MUTAGEN library.
+    thumbnail = models.FileField(upload_to='media_thumbnails', blank=True, verbose_name=_("thumbnail"))
+
     created_at = models.DateTimeField(verbose_name=_('created at'), auto_now_add=True, db_index=True)
     uploaded_by_user = models.ForeignKey(
         settings.AUTH_USER_MODEL, verbose_name=_('uploaded by user'),
@@ -80,7 +83,7 @@ class AbstractAudio(CollectionMember, index.Indexed, models.Model):
             try:
                 from mutagen import File
                 temp_audio = File(self.file.path)
-                self.duration = temp_audio.info.length
+                self.duration = int(math.ceil(temp_audio.info.length))
             except Exception as e:
                 raise Exception(str(e))
 
@@ -103,6 +106,7 @@ class AbstractAudio(CollectionMember, index.Indexed, models.Model):
             self.save(update_fields=['file_size'])
 
         return self.file_size
+
 
     def _set_file_hash(self, file_contents):
         self.file_hash = hashlib.sha1(file_contents).hexdigest()
@@ -134,6 +138,21 @@ class AbstractAudio(CollectionMember, index.Indexed, models.Model):
             full_path = os.path.join(folder_name, filename)
 
         return full_path
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def filename(self):
+        return os.path.basename(self.file.name)
+
+    @property
+    def file_extension(self):
+        return os.path.splitext(self.filename)[1][1:]
+
+    @property
+    def url(self):
+        return self.file.url
 
     def get_usage(self):
         return get_object_usage(self)

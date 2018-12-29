@@ -67,7 +67,7 @@ def chooser(request):
     audio_files = Audio.objects.order_by('-created_at')
 
     # allow hooks to modify the queryset
-    for hook in hooks.get_hooks('construct_image_chooser_queryset'):
+    for hook in hooks.get_hooks('construct_audio_chooser_queryset'):
         audio_files = hook(audio_files, request)
 
     if (
@@ -97,7 +97,7 @@ def chooser(request):
         # Pagination
         paginator, audio_files = paginate(request, audio_files, per_page=12)
 
-        return render(request, "wagtailimages/chooser/results.html", {
+        return render(request, "wagtailaudio/chooser/results.html", {
             'audio_files': audio_files,
             'is_searching': is_searching,
             'query_string': q,
@@ -111,7 +111,7 @@ def chooser(request):
             'uploadform': uploadform,
         })
         return render_modal_workflow(
-            request, 'wagtailimages/chooser/chooser.html', None, context,
+            request, 'wagtailaudio/chooser/chooser.html', None, context,
             json_data=get_chooser_js_data()
         )
 
@@ -135,17 +135,17 @@ def chooser_upload(request):
         form = AudioForm(request.POST, request.FILES, instance=audio, user=request.user)
 
         if form.is_valid():
-            # Set image file size
+            # Set audio file size
             audio.file_size = audio.file.size
 
-            # Set image file hash
+            # Set audio file hash
             audio.file.seek(0)
             audio._set_file_hash(audio.file.read())
             audio.file.seek(0)
 
             form.save()
 
-            # Reindex the image to make sure all tags are indexed
+            # Reindex the audio to make sure all tags are indexed
             search_index.insert_or_update_object(audio)
 
             return render_modal_workflow(

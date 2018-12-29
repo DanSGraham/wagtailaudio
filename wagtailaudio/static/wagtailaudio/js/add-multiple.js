@@ -38,6 +38,11 @@ $(function() {
                     $(elm).append(escapeHtml(data.files[index].name));
                 });
 
+                data.context.find('.preview .thumb').each(function(index, elm) {
+                    $(elm).addClass('hasthumb')
+                    $(elm).append(data.files[index].preview);
+                });
+
             }).done(function() {
                 data.context.find('.start').prop('disabled', false);
                 if ((that._trigger('added', e, data) !== false) &&
@@ -105,11 +110,7 @@ $(function() {
 
         fail: function(e, data) {
             var itemElement = $(data.context);
-            var errorMessage = $('.server-error', itemElement);
-            $('.error-text', errorMessage).text(data.errorThrown);
-            $('.error-code', errorMessage).text(data.jqXHR.status);
-
-            itemElement.addClass('upload-server-error');
+            itemElement.addClass('upload-failure');
         },
 
         always: function(e, data) {
@@ -127,8 +128,8 @@ $(function() {
 
         $.post(this.action, form.serialize(), function(data) {
             if (data.success) {
-                var statusText = $('.status-msg.update-success').text();
-                addMessage('success', statusText);
+                //var statusText = $('.status-msg.update-success').text();
+                //addMessage('success', statusText);
                 itemElement.slideUp(function() {$(this).remove()});
             } else {
                 form.replaceWith(data.form);

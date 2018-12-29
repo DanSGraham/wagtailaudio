@@ -32,7 +32,7 @@ class AudioMenuItem(MenuItem):
 def register_audio_menu_item():
     return AudioMenuItem(
         _('Audio'), reverse('wagtailaudio:index'),
-        name='audio', classnames='icon icon-audio', order=300
+        name='audio', classnames='icon icon-media', order=300
     )
 
 
@@ -80,12 +80,12 @@ def register_audio_search_area():
     return AudioSearchArea(
         _('Audio'), reverse('wagtailaudio:index'),
         name='audio',
-        classnames='icon icon-audio',
+        classnames='icon icon-media',
         order=200)
 
 
 @hooks.register('register_group_permission_panel')
-def register_image_permissions_panel():
+def register_audio_permissions_panel():
     return GroupAudioPermissionFormSet
 
 

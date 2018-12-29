@@ -11,7 +11,7 @@ from wagtailaudio.models import Audio
 from wagtailaudio.permissions import permission_policy as audio_permission_policy
 
 
-# Callback to allow us to override the default form field for the image file field
+# Callback to allow us to override the default form field for the audio file field
 def formfield_for_dbfield(db_field, **kwargs):
     # Check if this is the file field
     if db_field.name == 'file':
@@ -55,5 +55,5 @@ GroupAudioPermissionFormSet = collection_member_permission_formset_factory(
         ('add_audio', _("Add"), _("Add/edit audio you own")),
         ('change_audio', _("Edit"), _("Edit any audio")),
     ],
-    'wagtailimages/permissions/includes/audio_permissions_formset.html'
+    'wagtailaudio/permissions/includes/audio_permissions_formset.html'
 )

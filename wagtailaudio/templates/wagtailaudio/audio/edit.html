@@ -49,6 +49,8 @@
                 {% if audio.file %}
                     <dt>{% trans "Filesize" %}</dt>
                     <dd>{% if filesize %}{{ filesize|filesizeformat }}{% else %}{% trans "File not found" %}{% endif %}</dd>
+                    <dt>{% trans "Duration" %}</dt>
+                    <dd>{% if duration %}{{ duration }}{% else %}{% trans "Duration not found" %}{% endif %}</dd>
                 {% endif %}
 
                 {% usage_count_enabled as uc_enabled %}

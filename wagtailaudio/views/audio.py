@@ -97,10 +97,12 @@ def edit(request, audio_id):
         form = AudioForm(request.POST, request.FILES, instance=audio, user=request.user)
         if form.is_valid():
             if 'file' in form.changed_data:
-                # Set new image file size
+                # Set new audio file size
                 audio.file_size = audio.file.size
 
-                # Set new image file hash
+                # Get audio duration?
+
+                # Set new audio file hash
                 audio.file.seek(0)
                 audio._set_file_hash(audio.file.read())
                 audio.file.seek(0)
@@ -112,7 +114,6 @@ def edit(request, audio_id):
                 # NB Doing this via original_file.delete() clears the file field,
                 # which definitely isn't what we want...
                 original_file.storage.delete(original_file.name)
-                audio.renditions.all().delete()
 
             # Reindex the audio to make sure all tags are indexed
             search_index.insert_or_update_object(audio)
@@ -130,20 +131,23 @@ def edit(request, audio_id):
         # Give error if audio file doesn't exist
         if not os.path.isfile(audio.file.path):
             messages.error(request, _(
-                "The source audio file could not be found. Please change the source or delete the image."
+                "The source audio file could not be found. Please change the source or delete the audio."
             ).format(audio.title), buttons=[
                 messages.button(reverse('wagtailaudio:delete', args=(audio.id,)), _('Delete'))
             ])
 
     try:
         filesize = audio.get_file_size()
+        duration = audio.get_audio_duration()
     except SourceAudioIOError:
         filesize = None
+        duration = None
 
     return render(request, "wagtailaudio/audio/edit.html", {
         'audio': audio,
         'form': form,
         'filesize': filesize,
+        'duration': duration,
         'user_can_delete': permission_policy.user_has_permission_for_instance(
             request.user, 'delete', audio
         ),
@@ -176,17 +180,17 @@ def add(request):
         audio = AudioModel(uploaded_by_user=request.user)
         form = AudioForm(request.POST, request.FILES, instance=audio, user=request.user)
         if form.is_valid():
-            # Set image file size
+            # Set audio file size
             audio.file_size = audio.file.size
 
-            # Set image file hash
+            # Set audio file hash
             audio.file.seek(0)
             audio._set_file_hash(audio.file.read())
             audio.file.seek(0)
 
             form.save()
 
-            # Reindex the image to make sure all tags are indexed
+            # Reindex the audio to make sure all tags are indexed
             search_index.insert_or_update_object(audio)
 
             messages.success(request, _("Audio file '{0}' added.").format(audio.title), buttons=[

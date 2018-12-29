@@ -20,12 +20,12 @@ class AdminAudioChooser(AdminChooser):
         instance, value = self.get_instance_and_id(self.audio_model, value)
         original_field_html = super().render_html(name, value, attrs)
 
-        return render_to_string("wagtailimages/widgets/audio_chooser.html", {
+        return render_to_string("wagtailaudio/widgets/audio_chooser.html", {
             'widget': self,
             'original_field_html': original_field_html,
             'attrs': attrs,
             'value': value,
-            'image': instance,
+            'audio': instance,
         })
 
     def render_js_init(self, id_, name, value):

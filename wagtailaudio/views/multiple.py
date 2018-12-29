@@ -20,7 +20,7 @@ permission_checker = PermissionPolicyChecker(permission_policy)
 def get_audio_edit_form(AudioModel):
     AudioForm = get_audio_form(AudioModel)
 
-    # Make a new form with the file and focal point fields excluded
+    # Make a new form with the file excluded
     class AudioEditForm(AudioForm):
         class Meta(AudioForm.Meta):
             model = AudioModel
@@ -91,7 +91,7 @@ def add(request):
     else:
         form = AudioForm(user=request.user)
 
-    return render(request, 'wagtailimages/multiple/add.html', {
+    return render(request, 'wagtailaudio/multiple/add.html', {
         'max_filesize': form.fields['file'].max_upload_size,
         'help_text': form.fields['file'].help_text,
         'allowed_extensions': ALLOWED_EXTENSIONS,
