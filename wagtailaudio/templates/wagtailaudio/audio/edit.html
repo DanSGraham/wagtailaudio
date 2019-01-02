@@ -1,6 +1,7 @@
 {% extends "wagtailadmin/base.html" %}
+
 {% load i18n %}
-{% load wagtailimages_tags wagtailadmin_tags %}
+{% load wagtailaudio_tags wagtailadmin_tags %}
 {% block titletag %}{% blocktrans with title=audio.title %}Editing {{ title }}{% endblocktrans %}{% endblock %}
 
 {% block extra_js %}
@@ -50,7 +51,7 @@
                     <dt>{% trans "Filesize" %}</dt>
                     <dd>{% if filesize %}{{ filesize|filesizeformat }}{% else %}{% trans "File not found" %}{% endif %}</dd>
                     <dt>{% trans "Duration" %}</dt>
-                    <dd>{% if duration %}{{ duration }}{% else %}{% trans "Duration not found" %}{% endif %}</dd>
+                    <dd>{% if duration %}{{ duration | formatSeconds }}{% else %}{% trans "Duration not found" %}{% endif %}</dd>
                 {% endif %}
 
                 {% usage_count_enabled as uc_enabled %}

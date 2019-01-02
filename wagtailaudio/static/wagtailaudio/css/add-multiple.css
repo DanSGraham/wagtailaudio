@@ -22,7 +22,7 @@
 	 cursor: pointer;
 }
  .replace-file-input:hover button {
-	 background-color: lightblue;
+	 background-color: #2A9897;
 }
 
 .upload-list > li {
@@ -91,7 +91,7 @@
 	 width: 1em;
 	 font-size: 10em;
 	 line-height: 1.4em;
-	 color: #8a8a8a;
+	 color: #F0F0F0;
 }
  canvas, img {
 	 z-index: 3;
@@ -110,7 +110,7 @@
 	 display: block;
 }
  .upload-list .upload-failure {
-	 border-color: red;
+	 border-color: #CD3238;
 }
  .upload-list .upload-failure .preview {
 	 display: none;

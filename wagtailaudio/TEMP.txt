@@ -1,3 +1,4 @@
-The css is the problem for the add multiple. Everything else seems to be working properly. it seems like the scss must be compiled first using npm. 
 
-I would also like for the preview to show up during add multiple and the page viewer with the audio to listen to and the thumbnail.
+I would like for the preview to show up during add multiple and the page viewer with the audio to listen to and the thumbnail.
+
+The Edit page could use a little of CSS maybe. Also if mutagen can't find duration that could be an issue. Possibly allow for manual selection.
