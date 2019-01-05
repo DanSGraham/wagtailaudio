@@ -54,7 +54,7 @@ class AudioSummaryItem(SummaryItem):
 
     def get_context(self):
         return {
-            'total_audio': get_audio_model().objects.count(),
+            'total_audio_files': get_audio_model().objects.count(),
         }
 
     def is_shown(self):
